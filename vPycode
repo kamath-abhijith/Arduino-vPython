@@ -1,0 +1,24 @@
+import serial                                                                               #Import serial library
+from visual import *                                                                        #Imports everything for vPython
+
+arduinoSerialData = serial.Serial('com3', 9600)                                             #Object for reading data from serial port
+
+measuringRod = cylinder(length=0.5,color=color.yellow,radius=0.05,pos=(-0.75,0,0))          #Object for measuring rod with set parameters
+
+lengthLabel = label(text='The target distance is: ',pos=(0,0.5,0),height=30,box=false)
+
+while (1==1):                                                                               #Infinite loop
+    rate(20)
+
+    if (arduinoSerialData.inWaiting()>0):                                                   #Waits till serial port reads data
+
+        targetdistance=arduinoSerialData.readline()                                         #Reads the target distance as a string
+        distance = float(targetdistance)                                                    #Converts string to float
+
+        Label = 'The target distance is: ' + targetdistance                                 
+ 
+        lengthLabel.text = Label                                                            #Real time updation of screen label
+        measuringRod.length = distance                                                      #Real time updation of rod length
+
+        
+    
